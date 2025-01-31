@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/api/v1')]
 class TestController extends AbstractController
@@ -76,6 +77,7 @@ class TestController extends AbstractController
         return new JsonResponse(self::$response);
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/users', name: 'app_create_users', methods: ['POST'])]
     public function postCollection(Request $request): JsonResponse
     {
@@ -107,6 +109,7 @@ class TestController extends AbstractController
         return new JsonResponse(self::$response, 201);
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/users/{id}', name: 'app_update_user', methods: ['PATCH'])]
     public function patchItem(string $id, Request $request): JsonResponse
     {
@@ -149,6 +152,7 @@ class TestController extends AbstractController
         return new JsonResponse(self::$response);
     }
 
+    #[IsGranted("ROLE_ADMIN")]
     #[Route('/users/{id}', name: 'app_delete_user', methods: ['DELETE'])]
     public function deleteItem(string $id): JsonResponse
     {
